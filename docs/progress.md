@@ -2,7 +2,7 @@
 
 ## Phase 0: Discovery & Design
 
-**Status:** In Progress
+**Status:** Complete
 
 ### Completed
 - Repository initialized
@@ -33,7 +33,43 @@
 ---
 
 ## Phase 1: MCP Proxy
-**Status:** Not Started
+
+**Status:** Complete
+
+### Completed
+- MCP proxy endpoint (POST /mcp, DELETE /mcp)
+- Streamable HTTP protocol handling (JSON-RPC messages)
+- Agent authentication (API key → SHA-256 hash → session in Redis)
+- Session management (create, validate, destroy, TTL refresh)
+- Downstream MCP server connection manager (persistent connections)
+- Tool discovery from downstream servers (aggregated, namespaced by server)
+- Tool call forwarding (route to correct downstream server)
+- Initial Alembic migration (all 6 database tables)
+- Discovery endpoint (POST /api/v1/discovery/scan)
+- E2E test script
+- Mode: ALLOW EVERYTHING (no policy enforcement yet)
+
+### Files Created/Modified
+- `app/mcp/session.py` — Session manager (Redis)
+- `app/mcp/downstream.py` — Downstream MCP connection manager
+- `app/mcp/proxy.py` — MCP proxy endpoint (the core security boundary)
+- `app/api/discovery.py` — Tool discovery API
+- `alembic/versions/001_initial_schema.py` — Database migration
+- `tests/test_proxy_e2e.py` — End-to-end test
+
+### Security Boundary
+- Agent → AgentWall (authenticated via API key + session)
+- AgentWall → Downstream MCP servers (internal network only)
+- Agent cannot bypass proxy (Docker network isolation)
+- Killed/suspended agents are rejected immediately
+
+### Limitations
+- No policy evaluation (ALLOW EVERYTHING)
+- No risk scoring
+- No DLP
+- No audit logging
+- No approval workflow
+- Reconnection to downstream servers not yet handled
 
 ## Phase 2: Registries
 **Status:** Not Started
