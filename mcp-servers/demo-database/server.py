@@ -6,6 +6,8 @@ and data exfiltration scenarios.
 THIS IS A DEMO SIMPLIFICATION AND IS NOT PRODUCTION-SAFE.
 """
 
+import os
+
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("demo-database")
@@ -71,4 +73,5 @@ def drop_table(table: str, confirm: bool = False) -> dict:
 
 
 if __name__ == "__main__":
-    mcp.run(transport="sse")
+    port = int(os.environ.get("PORT", "8002"))
+    mcp.run(transport="sse", host="0.0.0.0", port=port)

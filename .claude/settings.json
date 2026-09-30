@@ -41,6 +41,13 @@
       "Bash(diff *)",
       "Bash(xargs *)",
       "Bash(cd *)",
+      "Bash(source *)",
+      "Bash(.venv/bin/*)",
+      "Bash(.venv/bin/python *)",
+      "Bash(.venv/bin/pip *)",
+      "Bash(.venv/bin/pytest *)",
+      "Bash(.venv/bin/alembic *)",
+      "Bash(. .venv/bin/activate *)",
       "Read",
       "Write",
       "Edit"

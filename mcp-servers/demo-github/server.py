@@ -7,6 +7,8 @@ audit systems without requiring real GitHub credentials.
 THIS IS A DEMO SIMPLIFICATION AND IS NOT PRODUCTION-SAFE.
 """
 
+import os
+
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("demo-github")
@@ -75,4 +77,5 @@ def create_issue(repo: str, title: str, body: str, labels: list[str] | None = No
 
 
 if __name__ == "__main__":
-    mcp.run(transport="sse")
+    port = int(os.environ.get("PORT", "8001"))
+    mcp.run(transport="sse", host="0.0.0.0", port=port)
