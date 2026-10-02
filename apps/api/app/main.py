@@ -30,6 +30,10 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):  # type: ignore[no-untyped-def]
     logger.info("AgentWall starting up")
+    from app.models import Base
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    logger.info("Database tables ensured")
     yield
     logger.info("AgentWall shutting down")
     await downstream_manager.disconnect_all()
@@ -44,9 +48,14 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+import os
+cors_origins = ["http://localhost:3000"]
+if os.getenv("DASHBOARD_URL"):
+    cors_origins.append(os.getenv("DASHBOARD_URL"))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
