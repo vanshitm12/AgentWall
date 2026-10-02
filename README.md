@@ -54,7 +54,7 @@ The agent connects to AgentWall as if it were a normal MCP server. AgentWall int
 
 ```bash
 # Clone and start
-git clone <repo-url>
+git clone https://github.com/vanshitm12/AgentWall.git
 cd agentwall
 make up
 
