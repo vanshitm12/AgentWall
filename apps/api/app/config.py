@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     session_ttl_seconds: int = 3600
     default_audit_log_level: str = "ARGS_ONLY"
 
+    risk_auto_deny_threshold: int = 80
+
     model_config = {"env_prefix": "", "case_sensitive": False}
 
 

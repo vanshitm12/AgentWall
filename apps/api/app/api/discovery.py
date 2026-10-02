@@ -63,7 +63,7 @@ async def scan_servers(db: AsyncSession = Depends(get_db)):
                         name=prefixed_name,
                         description=mcp_tool.description,
                         input_schema=(
-                            mcp_tool.inputSchema if mcp_tool.inputSchema else None
+                            mcp_tool.input_schema if mcp_tool.input_schema else None
                         ),
                     )
                     db.add(tool)

@@ -10,14 +10,17 @@ from app.models.base import Base, UUIDMixin
 class Approval(UUIDMixin, Base):
     __tablename__ = "approvals"
 
-    audit_event_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=False), ForeignKey("audit_events.id"), nullable=False
+    audit_event_id: Mapped[str | None] = mapped_column(
+        UUID(as_uuid=False), ForeignKey("audit_events.id"), nullable=True
     )
     agent_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=False), ForeignKey("agents.id"), nullable=False, index=True
+        UUID(as_uuid=False), ForeignKey("agents.id", ondelete="CASCADE"), nullable=False, index=True
     )
     tool_name: Mapped[str] = mapped_column(String(255), nullable=False)
     arguments: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    arguments_hash: Mapped[str | None] = mapped_column(
+        String(64), nullable=True, index=True
+    )
     status: Mapped[str] = mapped_column(
         String(20), nullable=False, default="PENDING", index=True
     )

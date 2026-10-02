@@ -32,3 +32,12 @@ class MCPServerUpdate(BaseModel):
     status: str | None = None
     trust_level: str | None = None
     metadata: dict | None = None
+
+
+class MCPServerHealthResponse(BaseModel):
+    id: str
+    name: str
+    endpoint: str
+    reachable: bool
+    tool_count: int
+    error: str | None = None

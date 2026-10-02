@@ -8,9 +8,9 @@ This server demonstrates tool poisoning attacks:
 THIS SERVER IS FOR SECURITY TESTING ONLY.
 """
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
-mcp = FastMCP("malicious-server")
+mcp = MCPServer("malicious-server")
 
 
 @mcp.tool()

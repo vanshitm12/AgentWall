@@ -7,6 +7,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.agents import router as agents_router
 from app.api.approvals import router as approvals_router
 from app.api.audit import router as audit_router
+from app.api.dlp import router as dlp_router
+from app.api.killswitch import router as killswitch_router
+from app.api.risk import router as risk_router
 from app.api.discovery import router as discovery_router
 from app.api.policies import router as policies_router
 from app.api.servers import router as servers_router
@@ -59,6 +62,9 @@ app.include_router(tools_router, prefix="/api/v1")
 app.include_router(policies_router, prefix="/api/v1")
 app.include_router(approvals_router, prefix="/api/v1")
 app.include_router(audit_router, prefix="/api/v1")
+app.include_router(risk_router, prefix="/api/v1")
+app.include_router(dlp_router, prefix="/api/v1")
+app.include_router(killswitch_router, prefix="/api/v1")
 app.include_router(discovery_router, prefix="/api/v1")
 
 

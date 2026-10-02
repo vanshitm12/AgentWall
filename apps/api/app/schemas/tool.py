@@ -11,6 +11,7 @@ class ToolResponse(BaseModel):
     input_schema: dict | None
     risk_classification: str
     audit_log_level: str | None
+    enabled: bool
     metadata: dict
     created_at: datetime
 
@@ -21,7 +22,6 @@ class ToolUpdate(BaseModel):
     risk_classification: str | None = Field(
         default=None, pattern="^(LOW|MEDIUM|HIGH|CRITICAL)$"
     )
-    audit_log_level: str | None = Field(
-        default=None, pattern="^(METADATA|ARGS_ONLY|FULL)$"
-    )
+    audit_log_level: str | None = None
+    enabled: bool | None = None
     metadata: dict | None = None

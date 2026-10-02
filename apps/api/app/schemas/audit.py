@@ -29,3 +29,10 @@ class AuditEventListResponse(BaseModel):
     total: int
     page: int
     page_size: int
+
+
+class AuditStatsResponse(BaseModel):
+    total_events: int
+    by_decision: dict[str, int]
+    top_tools: list[dict]
+    avg_latency_ms: float | None

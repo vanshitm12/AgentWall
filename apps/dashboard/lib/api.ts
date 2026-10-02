@@ -10,8 +10,14 @@ export async function fetchAPI(path: string, options?: RequestInit) {
   });
 
   if (!response.ok) {
-    throw new Error(`API error: ${response.status} ${response.statusText}`);
+    const text = await response.text();
+    throw new Error(`API error ${response.status}: ${text}`);
   }
 
+  return response.json();
+}
+
+export async function fetchHealth() {
+  const response = await fetch(`${API_URL}/health`);
   return response.json();
 }

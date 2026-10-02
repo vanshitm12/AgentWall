@@ -41,3 +41,15 @@ class AgentUpdate(BaseModel):
 
 class AgentStatusUpdate(BaseModel):
     status: str = Field(..., pattern="^(ACTIVE|SUSPENDED|KILLED)$")
+
+
+class AgentKeyRotateResponse(BaseModel):
+    id: str
+    name: str
+    api_key: str
+    api_key_prefix: str
+
+
+class AgentSessionResponse(BaseModel):
+    session_id: str
+    agent_id: str

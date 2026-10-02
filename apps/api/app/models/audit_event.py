@@ -17,17 +17,20 @@ class AuditEvent(UUIDMixin, Base):
         nullable=False,
         index=True,
     )
-    agent_id: Mapped[str] = mapped_column(
-        UUID(as_uuid=False), ForeignKey("agents.id"), nullable=False, index=True
+    agent_id: Mapped[str | None] = mapped_column(
+        UUID(as_uuid=False), ForeignKey("agents.id", ondelete="SET NULL"),
+        nullable=True, index=True,
     )
     session_id: Mapped[str] = mapped_column(String(255), nullable=False)
     server_id: Mapped[str | None] = mapped_column(
-        UUID(as_uuid=False), ForeignKey("mcp_servers.id"), nullable=True
+        UUID(as_uuid=False), ForeignKey("mcp_servers.id", ondelete="SET NULL"),
+        nullable=True,
     )
     tool_name: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
     decision: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
     policy_id: Mapped[str | None] = mapped_column(
-        UUID(as_uuid=False), ForeignKey("policies.id"), nullable=True
+        UUID(as_uuid=False), ForeignKey("policies.id", ondelete="SET NULL"),
+        nullable=True,
     )
     risk_score: Mapped[int | None] = mapped_column(Integer, nullable=True)
     risk_level: Mapped[str | None] = mapped_column(String(20), nullable=True)

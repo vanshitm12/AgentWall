@@ -93,6 +93,20 @@ class DownstreamManager:
             logger.error("Failed to connect to %s at %s: %s", name, endpoint, e)
             return False
 
+    async def disconnect_server(self, server_id: str) -> None:
+        """Remove a single server from the manager and clean up its tool mappings."""
+        server = self._servers.pop(server_id, None)
+        if not server:
+            return
+        tools_to_remove = [
+            k for k, v in self._tool_to_server.items() if v == server_id
+        ]
+        for k in tools_to_remove:
+            del self._tool_to_server[k]
+        server.connected = False
+        server.session = None
+        logger.info("Disconnected server %s (%s)", server.name, server_id)
+
     async def disconnect_all(self) -> None:
         await self._exit_stack.aclose()
         self._servers.clear()
@@ -111,7 +125,7 @@ class DownstreamManager:
                         "name": f"{server.name}.{tool.name}",
                         "description": tool.description or "",
                         "inputSchema": (
-                            tool.inputSchema if tool.inputSchema else {"type": "object"}
+                            tool.input_schema if tool.input_schema else {"type": "object"}
                         ),
                     }
                 )

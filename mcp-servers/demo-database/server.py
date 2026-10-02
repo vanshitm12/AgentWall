@@ -8,9 +8,9 @@ THIS IS A DEMO SIMPLIFICATION AND IS NOT PRODUCTION-SAFE.
 
 import os
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
-mcp = FastMCP("demo-database")
+mcp = MCPServer("demo-database")
 
 DEMO_DATA = {
     "users": [

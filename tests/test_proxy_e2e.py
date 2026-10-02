@@ -87,6 +87,16 @@ async def test_full_proxy_flow():
         if discovery.get("errors"):
             print(f"   Errors: {discovery['errors']}")
 
+        # Step 5b: Create a permit-all policy so tool calls succeed
+        r = await client.post("/api/v1/policies", json={
+            "name": "test-permit-all",
+            "description": "Allow all tool calls for test-agent",
+            "cedar_policy": 'permit(principal, action == Action::"call", resource);',
+            "priority": 1,
+        })
+        assert r.status_code == 201, f"Policy creation failed: {r.text}"
+        test_policy_id = r.json()["id"]
+
         # Step 6: Verify tools are registered
         print("\n6. Listing discovered tools...")
         r = await client.get("/api/v1/tools")
@@ -215,6 +225,13 @@ async def test_full_proxy_flow():
         )
         assert r.status_code == 401, f"Expected 401, got {r.status_code}"
         print("   OK: 401 Unauthorized (session expired)")
+
+        # Cleanup
+        try:
+            await client.delete(f"/api/v1/policies/{test_policy_id}")
+            await client.delete(f"/api/v1/agents/{agent_id}")
+        except Exception:
+            pass
 
         print("\n=== ALL TESTS PASSED ===\n")
         print("Phase 1 verified:")

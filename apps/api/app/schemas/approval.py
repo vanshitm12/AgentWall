@@ -5,10 +5,11 @@ from pydantic import BaseModel, Field
 
 class ApprovalResponse(BaseModel):
     id: str
-    audit_event_id: str
+    audit_event_id: str | None
     agent_id: str
     tool_name: str
     arguments: dict | None
+    arguments_hash: str | None
     status: str
     risk_score: int | None
     risk_level: str | None
